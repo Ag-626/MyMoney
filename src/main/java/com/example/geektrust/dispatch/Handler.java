@@ -1,5 +1,8 @@
 package com.example.geektrust.dispatch;
 
-public interface Handler {
+import com.example.geektrust.cli.ParsedInput;
 
+@FunctionalInterface
+public interface Handler {
+  void handle(ParsedInput input) throws Exception;
 }

@@ -1,9 +1,7 @@
 package com.example.geektrust.domain;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 public enum Month {
   JANUARY(1),
