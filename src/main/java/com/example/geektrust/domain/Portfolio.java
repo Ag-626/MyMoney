@@ -27,12 +27,23 @@ public class Portfolio {
   }
 
   public void allocate(long equity, long debt, long gold) {
+    if(this.allocated) {
+      throw new IllegalStateException("Portfolio is already allocated");
+    }
     setInitialAllocation(equity, debt, gold);
     setCurrentAmounts(equity, debt, gold);
     setAllocated(true);
   }
 
+
+
   public void setSip(long equity,long debt, long gold) {
+    if (!allocated) {
+      throw new IllegalStateException("SIP cannot be set before allocation");
+    }
+    if (sipSet) {
+      throw new IllegalStateException("SIP already set");
+    }
     sipAmounts.put(FundType.EQUITY, equity);
     sipAmounts.put(FundType.DEBT, debt);
     sipAmounts.put(FundType.GOLD, gold);
@@ -43,7 +54,7 @@ public class Portfolio {
     return currentAmounts.get(Objects.requireNonNull(fund));
   }
 
-  public void setCurrentAmounts(FundType fund, long amount) {
+  public void setCurrentAmount(FundType fund, long amount) {
     currentAmounts.put(Objects.requireNonNull(fund), amount);
   }
 
@@ -98,6 +109,9 @@ public class Portfolio {
       sipAmounts.put(f, 0L);
       currentAmounts.put(f, 0L);
     }
+    allocated=false;
+    sipSet=false;
+    lastRebalanced=null;
   }
 
   private void setInitialAllocation(long equity, long debt, long gold){
